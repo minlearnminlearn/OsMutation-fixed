@@ -87,7 +87,7 @@ function read_lxc_template(){
         fi
 
         os_list=$( echo "$path" | sed -E 's%/images/(.*)/default/.*/%\1%g' | sed 's%/%-%g' )
-        echo "$os_list" | nl
+        echo "$os_list" | nl; echo 99  "custom tar ..."
 
         while [ -z "${os_index##*[!0-9]*}" ]; do
             echo -ne "\e[1;33mplease select os (input number):\e[m"
@@ -96,7 +96,14 @@ function read_lxc_template(){
 
         path=$( echo "$path" | head -n $os_index | tail -n 1)
         os_selected=$(echo "$os_list" | head -n $os_index | tail -n 1 )
-        download_link=${server}/${path}/rootfs.tar.xz
+
+        if [ "$os_selected" != 99 ]; then
+          download_link=${server}/${path}/rootfs.tar.xz
+        else
+          echo -ne "\e[1;33mplease enter a url:\e[m"
+          read download_link < /dev/tty
+        fi
+
     fi
 }
 
@@ -105,7 +112,7 @@ function read_openvz_template(){
     os_list=$(wget -qO- "https://github.com/LloydAsp/OsMutation/releases/expanded_assets/v0.0.1" | \
         sed -nE '/tar.gz/s/.*>([^<>]+)\.tar\.gz.*/\1/p' | \
         grep -E "(debian)|(centos)|(alpine)" )
-    echo "$os_list" | nl
+    echo "$os_list" | nl; echo 99  "custom tar ..."
 
     while [ -z "${os_index##*[!0-9]*}" ]; 
     do
@@ -114,7 +121,14 @@ function read_openvz_template(){
     done
 
     os_selected=$( echo "$os_list" | head -n $os_index | tail -n 1)
-    download_link="https://github.com/LloydAsp/OsMutation/releases/download/${releasetag}/${os_selected}.tar.gz"
+
+    if [ "$os_selected" != 99 ]; then
+          download_link="https://github.com/LloydAsp/OsMutation/releases/download/${releasetag}/${os_selected}.tar.gz"
+        else
+          echo -ne "\e[1;33mplease enter a url:\e[m"
+          read download_link < /dev/tty
+        fi
+
 }
 
 function download_rootfs(){
