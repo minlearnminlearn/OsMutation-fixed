@@ -74,7 +74,7 @@ function read_lxc_template(){
         done
 
 
-        if [ "$os_selected" != '99' ]; then
+        if [ "$os_index" != '99' ]; then
           download_link=${server}/${path}/rootfs.tar.xz
         else
           echo -ne "\e[1;33mplease enter a url:\e[m"
@@ -101,10 +101,10 @@ function read_lxc_template(){
             read os_index < /dev/tty
         done
 
-        path=$( echo "$path" | head -n $os_index | tail -n 1)
-        os_selected=$(echo "$os_list" | head -n $os_index | tail -n 1 )
 
-        if [ "$os_selected" != '99' ]; then
+        if [ "$os_index" != '99' ]; then
+          path=$( echo "$path" | head -n $os_index | tail -n 1)
+          os_selected=$(echo "$os_list" | head -n $os_index | tail -n 1 )
           download_link=${server}/${path}/rootfs.tar.xz
         else
           echo -ne "\e[1;33mplease enter a url:\e[m"
@@ -127,9 +127,8 @@ function read_openvz_template(){
         read os_index < /dev/tty
     done
 
-    os_selected=$( echo "$os_list" | head -n $os_index | tail -n 1)
-
-    if [ "$os_selected" != '99' ]; then
+    if [ "$os_index" != '99' ]; then
+          os_selected=$( echo "$os_list" | head -n $os_index | tail -n 1)
           download_link="https://github.com/LloydAsp/OsMutation/releases/download/${releasetag}/${os_selected}.tar.gz"
         else
           echo -ne "\e[1;33mplease enter a url:\e[m"
@@ -140,6 +139,7 @@ function read_openvz_template(){
 
 function download_rootfs(){
     cd /
+    rm -rf /x
     mkdir /x
 
     if [ "$cttype" == 'lxc' ] ; then
