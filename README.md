@@ -1,6 +1,6 @@
 
 
-# wget -qO OsMutation.sh https://raw.githubusercontent.com/minlearnminlearn/OsMutation/main/OsMutation.sh && chmod u+x OsMutation.sh && ./OsMutation.sh
+# wget -qO OsMutation.sh https://raw.githubusercontent.com/minlearnminlearn/OsMutation-fixed/main/OsMutation.sh && chmod u+x OsMutation.sh && ./OsMutation.sh
 
 
 # OsMutation
