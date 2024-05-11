@@ -66,14 +66,21 @@ function read_lxc_template(){
         fi
 
         os_list=$(echo "$image_list" | sed "s/https\:\/\/github.com\/LloydAsp\/OsMutation\/releases\/download\/${last_lxc_version}\///g" | sed "s/\.tar\.gz//g")
-        echo "$os_list" | nl
+        echo "$os_list" | nl; echo 99  "custom tar ..."
 
         while [ -z "${os_index##*[!0-9]*}" ]; do
             echo -ne "\e[1;33mplease select os (input number):\e[m"
             read os_index < /dev/tty
         done
 
-        download_link=$(echo "$image_list" | head -n $os_index | tail -n 1)
+
+        if [ "$os_selected" != '99' ]; then
+          download_link=${server}/${path}/rootfs.tar.xz
+        else
+          echo -ne "\e[1;33mplease enter a url:\e[m"
+          read download_link < /dev/tty
+        fi
+
     else
         server=http://images.linuxcontainers.org
         path=$(wget -qO- ${server}/meta/1.0/index-system | \
@@ -97,7 +104,7 @@ function read_lxc_template(){
         path=$( echo "$path" | head -n $os_index | tail -n 1)
         os_selected=$(echo "$os_list" | head -n $os_index | tail -n 1 )
 
-        if [ "$os_selected" != 99 ]; then
+        if [ "$os_selected" != '99' ]; then
           download_link=${server}/${path}/rootfs.tar.xz
         else
           echo -ne "\e[1;33mplease enter a url:\e[m"
@@ -122,7 +129,7 @@ function read_openvz_template(){
 
     os_selected=$( echo "$os_list" | head -n $os_index | tail -n 1)
 
-    if [ "$os_selected" != 99 ]; then
+    if [ "$os_selected" != '99' ]; then
           download_link="https://github.com/LloydAsp/OsMutation/releases/download/${releasetag}/${os_selected}.tar.gz"
         else
           echo -ne "\e[1;33mplease enter a url:\e[m"
