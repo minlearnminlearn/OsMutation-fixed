@@ -1,3 +1,8 @@
+
+
+# wget -qO OsMutation.sh https://raw.githubusercontent.com/minlearnminlearn/OsMutation/main/OsMutation.sh && chmod u+x OsMutation.sh && ./OsMutation.sh
+
+
 # OsMutation
 Reinstall Any OpenVZ/LXC VPS to Debian/CentOS/Alpine
 
