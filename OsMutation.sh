@@ -224,7 +224,7 @@ function replace_os(){
 function post_install(){
     export PATH="/usr/sbin:/usr/bin:/sbin:/bin"
     if grep -qi alpine /etc/issue; then
-        install openssh bash
+        install openssh bash net-tools
         rc-update add sshd default
         rc-update add mdev sysinit
         rc-update add devfs sysinit
@@ -234,13 +234,13 @@ function post_install(){
             sed -i 's/--auto/-a/' /etc/init.d/networking # fix bug in networking script of lxc
         fi
     elif grep -qi debian /etc/issue; then
-        install ssh
+        install ssh net-tools
         if [ "$cttype" == 'lxc' ] ; then
             install ifupdown
             systemctl disable systemd-networkd.service
         fi
     elif grep -qi centos /etc/issue; then
-        install openssh
+        install openssh net-tools
         if [ "$cttype" == 'lxc' ] ; then
             install ifupdown
             systemctl disable systemd-networkd.service
